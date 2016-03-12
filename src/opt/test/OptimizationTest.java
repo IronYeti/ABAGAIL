@@ -27,7 +27,7 @@ import opt.prob.GenericProbabilisticOptimizationProblem;
 import opt.prob.MIMIC;
 import opt.prob.ProbabilisticOptimizationProblem;
 import shared.FixedIterationTrainer;
-
+import shared.ThresholdTrainer;
 /**
  *
  * 
@@ -169,23 +169,23 @@ public class OptimizationTest {
 		count_one_test_params.put("MIMIC_samples", 50.);
 		count_one_test_params.put("MIMIC_to_keep", 10.);
 		
-		int[] N = {10,20};
-		int[] iterations = {10,20,30};
+		int[] N = {10,20,30};
+		int[] iterations = {100,200,300,400,500,1000};
 		String[] algorithms = {"RHC","SA","GA","MIMIC"};
-		for (int i = 0; i < algorithms.length; i++) {
-			for (int j = 0; j < N.length; j++) {
-				count_one_test_params.put("N", (double)N[j]);
-				for (int k = 0; k < iterations.length; k++){
-					new Analyze_Optimization_Test(
-							"count_ones",
-							algorithms[i],
-							iterations[k],
-							count_one_test_params
-//					).start();
-					).run();
-				}
-			}
-		}
+//		for (int i = 0; i < algorithms.length; i++) {
+//			for (int j = 0; j < N.length; j++) {
+//				count_one_test_params.put("N", (double)N[j]);
+//				for (int k = 0; k < iterations.length; k++){
+//					new Analyze_Optimization_Test(
+//							"count_ones",
+//							algorithms[i],
+//							iterations[k],
+//							count_one_test_params
+////					).start();
+//					).run();
+//				}
+//			}
+//		}
 		// Four Peaks Test
 		HashMap<String, Double> four_peaks_test_params = new HashMap<>();
 		four_peaks_test_params.put("SA_initial_temperature", 1E11);
@@ -196,8 +196,8 @@ public class OptimizationTest {
 		four_peaks_test_params.put("MIMIC_samples", 50.);
 		four_peaks_test_params.put("MIMIC_to_keep", 10.);
 		
-		N = new int[] {10,20};
-		iterations = new int[] {10,20,30};
+//		N = new int[] {10,20};
+//		iterations = new int[] {100,200,300};
 		for (int i = 0; i < algorithms.length; i++) {
 			for (int j = 0; j < N.length; j++) {
 				four_peaks_test_params.put("N", (double)N[j]);
