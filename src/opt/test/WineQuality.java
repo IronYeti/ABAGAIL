@@ -42,13 +42,13 @@ public class WineQuality {
     private static String results = "";
     private static int PA_display_qty = 0;
     private static DecimalFormat df = new DecimalFormat("0.000");
-    
+    private static Boolean Debug = false;
     public static void main(String[] args) {
 
         int inputLayer = 11, hiddenLayer = 6, outputLayer = 1; //, trainingIterations = 100;
 
-        for(int trainingIterations = 250; trainingIterations<=2000; trainingIterations += 250) {
-        	for (int repetitions = 0; repetitions < 1; repetitions += 1) {
+        for(int trainingIterations = 400; trainingIterations<=400; trainingIterations += 100) {
+        	for (int repetitions = 0; repetitions < 10; repetitions += 1) {
 	        	for(int i = 0; i < oa.length; i++) {
 		            networks[i] = factory.createClassificationNetwork(
 		                new int[] {inputLayer, hiddenLayer, outputLayer});
@@ -59,17 +59,18 @@ public class WineQuality {
 		        oa[1] = new SimulatedAnnealing(1E11, .95, nnop[1]);
 		        oa[2] = new StandardGeneticAlgorithm(200, 100, 10, nnop[2]);
 		
-		    	System.out.println("\nTraining iterations: " + trainingIterations);
-		//    	results += "\nTraining iterations: " + trainingIterations;
-		//    	results += "\n" + trainingIterations;
+//		    	System.out.println("\nTraining iterations: " + trainingIterations);
 		    	results = "";
-		        for(int i = 0; i < 2; i++) {
+		        for(int i = 2; i < 3; i++) {
 //		        for(int i = 0; i < oa.length; i++) {
-		            System.out.print("Algorithm: " + oaNames[i] + "...");
+		            if (Debug) {
+		            	System.out.print("Algorithm: " + oaNames[i] + " - Training the NN...");
+		            };
 		            double start = System.nanoTime(), end, trainingTime, testingTime, correct = 0, incorrect = 0;
-		        	System.out.print("Training the NeuralNet...");
 		            train(oa[i], networks[i], oaNames[i], trainingIterations); //trainer.train();
-		        	System.out.println(" Complete...");
+		        	if (Debug) {
+		        		System.out.println(" Complete...");
+		        	}
 		            end = System.nanoTime();
 		            trainingTime = end - start;
 		            trainingTime /= Math.pow(10,9);
@@ -79,29 +80,27 @@ public class WineQuality {
 		
 		            double predicted, actual;
 //		            System.out.println("Evaluating the Training data...");
-		            start = System.nanoTime();
-		            for(int j = 0; j < instances.length; j++) {
-		                networks[i].setInputValues(instances[j].getData());
-		                networks[i].run();
-		
-		                actual = Double.parseDouble(instances[j].getLabel().toString()); // was 'predicted'
-		                predicted = Double.parseDouble(networks[i].getOutputValues().toString()); // was 'actual'
-		                if (j < PA_display_qty) {
-		                	System.out.println("Predicted & Actual =  " + predicted + " & " + actual);
-		                };
-		                double trash = Math.abs(predicted - actual) < 0.5 ? correct++ : incorrect++;
-		            }
-		            end = System.nanoTime();
-		            testingTime = end - start;
-		            testingTime /= Math.pow(10,9);
-		            
-//		            System.out.println();
-		            results = "Train Results: "
-		            		+ trainingIterations + "\t" + oaNames[i] + "\t" 
-		                    + df.format(correct/(correct+incorrect)*100) + "%\t"
-		                    + df.format(trainingTime) + "\t"
-		                    + df.format(testingTime);
-		            System.out.println(results);
+//		            start = System.nanoTime();
+//		            for(int j = 0; j < instances.length; j++) {
+//		                networks[i].setInputValues(instances[j].getData());
+//		                networks[i].run();
+//		
+//		                actual = Double.parseDouble(instances[j].getLabel().toString()); // was 'predicted'
+//		                predicted = Double.parseDouble(networks[i].getOutputValues().toString()); // was 'actual'
+//		                if (Debug && j < PA_display_qty) {
+//		                	System.out.println("Predicted & Actual =  " + predicted + " & " + actual);
+//		                };
+//		                double trash = Math.abs(predicted - actual) < 0.5 ? correct++ : incorrect++;
+//		            }
+//		            end = System.nanoTime();
+//		            testingTime = end - start;
+//		            testingTime /= Math.pow(10,9);
+//		            results = "Train Results: "
+//		            		+ trainingIterations + "\t" + oaNames[i] + "\t" 
+//		                    + df.format(correct/(correct+incorrect)*100) + "%\t"
+//		                    + df.format(trainingTime) + "\t"
+//		                    + df.format(testingTime);
+//		            System.out.println(results);
 
 		            /*
 		              now see how the TEST data performs
@@ -114,9 +113,9 @@ public class WineQuality {
 		
 		                actual = Double.parseDouble(instances_test[j].getLabel().toString()); // was 'predicted'
 		                predicted = Double.parseDouble(networks[i].getOutputValues().toString()); // was 'actual'
-		                if (j < PA_display_qty) {
-		                	System.out.println("Predicted & Actual =  " + predicted + " & " + actual);
-		                };
+//		                if (Debug && j < PA_display_qty) {
+//		                	System.out.println("Predicted & Actual =  " + predicted + " & " + actual);
+//		                };
 		                double trash = Math.abs(predicted - actual) < 0.5 ? correct++ : incorrect++;
 		            }
 		            end = System.nanoTime();
@@ -124,12 +123,12 @@ public class WineQuality {
 		            testingTime /= Math.pow(10,9);
 
 //		            System.out.println();
-		            results = "TEST  Results: "
-		            		+ trainingIterations + "\t" + oaNames[i] + "\t" 
+		            results = oaNames[i] + "\t"
+		            		+ trainingIterations + "\t"
+		            		+ (repetitions + 1) + "\t"
 		                    + df.format(correct/(correct+incorrect)*100) + "%\t"
 		                    + df.format(trainingTime) + "\t"
 		                    + df.format(testingTime);
-
 		            System.out.println(results);
 		        } // end i
 	        } // end repetitions
@@ -154,9 +153,10 @@ public class WineQuality {
                 example.setLabel(new Instance(Double.parseDouble(network.getOutputValues().toString())));
                 error += measure.value(output, example);
             }
-
 //            System.out.println(df.format(error));
 //            System.out.print(".");
+
+//            System.out.println("Error\t" + i + "\t" + error);
         }
     }
 
@@ -164,11 +164,12 @@ public class WineQuality {
 
     	System.out.println("Processing training data...");
     	int attributeCount = 11;
-        int instanceCount = 1599;
+        int instanceCount = 1279;
         double[][][] attributes = new double[instanceCount][][];
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(new File("src/opt/test/winequality-red.txt")));
+//            BufferedReader br = new BufferedReader(new FileReader(new File("src/opt/test/winequality-red.txt")));
+            BufferedReader br = new BufferedReader(new FileReader(new File("src/opt/test/winequality-red-train-normalized.txt")));
 
             for(int i = 0; i < attributes.length; i++) {
                 Scanner scan = new Scanner(br.readLine());
@@ -208,7 +209,8 @@ public class WineQuality {
         double[][][] attributes_test = new double[instanceCount][][];
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(new File("src/opt/test/winequality-red-test.txt")));
+//            BufferedReader br = new BufferedReader(new FileReader(new File("src/opt/test/winequality-red-test.txt")));
+            BufferedReader br = new BufferedReader(new FileReader(new File("src/opt/test/winequality-red-test-normalized.txt")));
             //BufferedReader br = new BufferedReader(new FileReader(new File("src/opt/test/creditapp-TRAIN.txt")));
 
             for(int i = 0; i < attributes_test.length; i++) {
