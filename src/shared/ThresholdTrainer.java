@@ -7,9 +7,9 @@ package shared;
  */
 public class ThresholdTrainer implements Trainer { 
     /** The default threshold */
-    private static final double THRESHOLD = 1E-6;
+    private static final double THRESHOLD = 1E-1;  // 1E-6
     /** The maxium number of iterations */
-    private static final int MAX_ITERATIONS = 500;
+    private static final int MAX_ITERATIONS = 500000;
 
     /**
      * The trainer
@@ -63,6 +63,7 @@ public class ThresholdTrainer implements Trainer {
            error = trainer.train();
         } while (Math.abs(error) > threshold
              && iterations < maxIterations);
+//        System.out.println("Error = " + error);
         return error;
     }
     
@@ -71,6 +72,7 @@ public class ThresholdTrainer implements Trainer {
      * @return the number of iterations
      */
     public int getIterations() {
+//    	System.out.println("Iterations = " + iterations);
         return iterations;
     }
     

@@ -47,7 +47,7 @@ public class WineQuality {
 
         int inputLayer = 11, hiddenLayer = 6, outputLayer = 1; //, trainingIterations = 100;
 
-        for(int trainingIterations = 400; trainingIterations<=400; trainingIterations += 100) {
+        for(int trainingIterations = 600; trainingIterations<=1000; trainingIterations += 100) {
         	for (int repetitions = 0; repetitions < 10; repetitions += 1) {
 	        	for(int i = 0; i < oa.length; i++) {
 		            networks[i] = factory.createClassificationNetwork(
