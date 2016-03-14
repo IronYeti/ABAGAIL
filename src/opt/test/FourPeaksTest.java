@@ -37,7 +37,7 @@ public class FourPeaksTest {
     /** The t value */
 //    private static final int T = N / 10;
 //    /** Iterations */
-    private static final int iter = 200000;
+    private static final int iter = 500000;
     
     public static void main(String[] args) {
 //        System.out.println("Starting ...");
@@ -64,7 +64,8 @@ public class FourPeaksTest {
 //		        ConvergenceTrainer tt = new ConvergenceTrainer(rhc);
 //		        tt.train();
 //		        int RHCresult = (int)(ef.value(rhc.getOptimal()));
-		        System.out.println("RHC: " + ef.value(rhc.getOptimal()));
+//		        System.out.println(N + "\t" + "RHC: " + ef.value(rhc.getOptimal()));
+		        System.out.println(N + "\t" + "RHC:\t" + fit.getBestScore() + "\t" + fit.getIterations());
 //		        int RHCiter = tt.getIterations();
 		
 		        SimulatedAnnealing sa = new SimulatedAnnealing(1E11, .95, hcp);
@@ -75,88 +76,31 @@ public class FourPeaksTest {
 //		        tt.train();
 //		        int SAresult = (int)(ef.value(sa.getOptimal()));
 		//        System.out.println("SA: " + ef.value(sa.getOptimal()));
+//		        System.out.println(N + "\t" + "SA: " + ef.value(sa.getOptimal()));
+		        System.out.println(N + "\t" + "SA:\t" + fit.getBestScore() + "\t" + fit.getIterations());
 //		        int SAiter = tt.getIterations();
 		        
 		        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 100, 10, gap);
-//		        fit = new FixedIterationTrainer(ga, 1000); // 1000
-//		        fit.train();
+		        fit = new FixedIterationTrainer(ga, 10000, N); // 1000
+		        fit.train();
 //		        tt = new ThresholdTrainer(ga);
 //		        tt = new ConvergenceTrainer(ga);
 //		        tt.train();
 //		        int GAresult = (int)(ef.value(ga.getOptimal()));
 		//        System.out.println("GA: " + ef.value(ga.getOptimal()));
+//		        System.out.println(N + "\t" + "GA: " + ef.value(ga.getOptimal()));
+		        System.out.println(N + "\t" + "GA:\t" + fit.getBestScore() + "\t" + fit.getIterations());
 //		        int GAiter = tt.getIterations();
 		        
 		        MIMIC mimic = new MIMIC(200, 20, pop);
-//		        fit = new FixedIterationTrainer(mimic, 1000); // 1000
-//		        fit.train();
+		        fit = new FixedIterationTrainer(mimic, 5000, N); // 1000
+		        fit.train();
 //		        tt = new ThresholdTrainer(mimic);
 //		        tt = new ConvergenceTrainer(mimic);
 //		        tt.train();
-//		        int max_score = 0;
-//		        switch(N) {
-//			        case (10): max_score = 18;
-//			        case (20): max_score = 37;
-//			        case (30): max_score = 56;
-//			        case (40): max_score = 75;
-//			        case (50): max_score = 94;
-//			        case (60): max_score = 113;
-//			        case (70): max_score = 132;
-//			        case (80): max_score = ;
-//			        case (90): max_score = 18;
-//			        case (100): max_score = 18;
-		        }
-//		        int RHCiter = 0;
-//		        int RHCresult = 0;
-//		        while (RHCresult < max_score) {
-//		        	RHCiter += 1;
-//		        	RHCresult = (int)(ef.value(rhc.getOptimal()));
-//		        	if (RHCiter > 1000000) {
-//		        		System.out.println("Maxed out for RHC");
-//		        		break;
-//		        	}
-//		        }
-
-//		        int SAiter = 0;
-//		        int SAresult = 0;
-//		        while (SAresult < max_score) {
-//		        	SAiter += 1;
-//		        	SAresult = (int)(ef.value(sa.getOptimal()));
-//		        	System.out.println("SA = " + SAresult);
-//		        	if (SAiter > 1000000) {
-//		        		System.out.println("Maxed out for SA");
-//		        		break;
-//		        	}
-//		        }
-
-//		        int GAiter = 0;
-//		        int GAresult = 0;
-//		        while (GAresult < max_score) {
-//		        	GAiter += 1;
-//		        	GAresult = (int)(ef.value(ga.getOptimal()));
-//		        	if (GAiter > 1000000) {
-//		        		System.out.println("Maxed out for GA");
-//		        		break;
-//		        	}
-//		        }
-
-//		        int MIMICiter = 0;
-//		        int MIMICresult = 0;
-//		        while (MIMICresult < max_score) {
-//		        	MIMICiter += 1;
-//		        	MIMICresult = (int)(ef.value(mimic.getOptimal()));
-//		        	if (MIMICiter > 1000) {
-//		        		System.out.println("Maxed out for MIMIC");
-//		        		break;
-//		        	}
-//		        }
-//		        System.out.println("Max Iterations for MIMIC = " + MIMICiterations);
-
-		        //?		        int MIMICresult = (int)(ef.value(mimic.getOptimal()));
-//		        int MIMICiter = tt.getIterations();
-//		        case (N = 10):
-//		        	if MIMICresult < 18)
-		        
+//		        System.out.println(N + "\t" + "MIMIC: " + ef.value(mimic.getOptimal()));
+		        System.out.println(N + "\t" + "MIMIC:\t" + fit.getBestScore() + "\t" + fit.getIterations());
+    	
 		//        System.out.println("The 4 Peaks Optimization values:");
 		//        System.out.println("RHC: " + ef.value(rhc.getOptimal()));
 		//        System.out.println("SA: " + ef.value(sa.getOptimal()));
@@ -168,6 +112,6 @@ public class FourPeaksTest {
 //		        System.out.println(N + "\t" + RHCresult + "\t"+ SAresult + "\t"+ GAresult + "\t"+ MIMICresult);
 //		        System.out.println(N + "\t" + RHCiter + "\t"+ SAiter + "\t"+ GAiter + "\t"+ MIMICiter);
         	}
-//       	}
+       	}
 //    }
 }
