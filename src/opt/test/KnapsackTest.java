@@ -25,7 +25,7 @@ import opt.ga.UniformCrossOver;
 import opt.prob.GenericProbabilisticOptimizationProblem;
 import opt.prob.MIMIC;
 import opt.prob.ProbabilisticOptimizationProblem;
-import shared.FixedIterationTrainer;
+import shared.FixedIterationTrainerKnapsack;
 
 /**
  * A test of the knap sack problem
@@ -51,6 +51,8 @@ public class KnapsackTest {
      * @param args ignored
      */
     public static void main(String[] args) {
+		System.out.println("Starting...");
+//    	System.out.println("RHCs\tRHCi\tSAs\tSAi\tGAs\tGAi\tMIMICs\tMIMICi");
         int[] copies = new int[NUM_ITEMS];
         Arrays.fill(copies, COPIES_EACH);
         double[] weights = new double[NUM_ITEMS];
@@ -72,24 +74,35 @@ public class KnapsackTest {
         ProbabilisticOptimizationProblem pop = new GenericProbabilisticOptimizationProblem(ef, odd, df);
         
         RandomizedHillClimbing rhc = new RandomizedHillClimbing(hcp);      
-        FixedIterationTrainer fit = new FixedIterationTrainer(rhc, 200000);
+        FixedIterationTrainerKnapsack fit = new FixedIterationTrainerKnapsack(rhc, 200000);
         fit.train();
-        System.out.println(ef.value(rhc.getOptimal()));
+//        System.out.println(ef.value(rhc.getOptimal()));
+        int RHCscore = fit.getBestScore();
+//        int RHCiter  = fit.getIterations();
         
         SimulatedAnnealing sa = new SimulatedAnnealing(100, .95, hcp);
-        fit = new FixedIterationTrainer(sa, 200000);
+        fit = new FixedIterationTrainerKnapsack(sa, 200000);
         fit.train();
-        System.out.println(ef.value(sa.getOptimal()));
+//        System.out.println(ef.value(sa.getOptimal()));
+        int SAscore = fit.getBestScore();
+//        int SAiter  = fit.getIterations();
         
         StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 150, 25, gap);
-        fit = new FixedIterationTrainer(ga, 1000);
+        fit = new FixedIterationTrainerKnapsack(ga, 1000);
         fit.train();
-        System.out.println(ef.value(ga.getOptimal()));
+//        System.out.println(ef.value(ga.getOptimal()));
+        int GAscore = fit.getBestScore();
+//        int GAiter  = fit.getIterations();
         
         MIMIC mimic = new MIMIC(200, 100, pop);
-        fit = new FixedIterationTrainer(mimic, 1000);
+        fit = new FixedIterationTrainerKnapsack(mimic, 1000);
         fit.train();
-        System.out.println(ef.value(mimic.getOptimal()));
+//        System.out.println(ef.value(mimic.getOptimal()));
+        int MIMICscore = fit.getBestScore();
+//        int MIMICiter  = fit.getIterations();
+
+        System.out.println(RHCscore + "\t" + SAscore + "\t" + 
+				+ GAscore + "\t" + MIMICscore + "\t");
     }
 
 }

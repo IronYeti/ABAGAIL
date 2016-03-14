@@ -24,7 +24,7 @@ import opt.ga.StandardGeneticAlgorithm;
 import opt.prob.GenericProbabilisticOptimizationProblem;
 import opt.prob.MIMIC;
 import opt.prob.ProbabilisticOptimizationProblem;
-import shared.FixedIterationTrainer;
+import shared.FixedIterationTrainerFourPeaks;
 import shared.ThresholdTrainer;
 import shared.ConvergenceTrainer;
 /**
@@ -40,8 +40,8 @@ public class FourPeaksTest {
     private static final int iter = 500000;
     
     public static void main(String[] args) {
-//        System.out.println("Starting ...");
-        System.out.println("N\tRHC\tSA\tGA\tMIMIC");
+        System.out.println("Starting ...");
+//        System.out.println("N\tRHC\tSA\tGA\tMIMIC");
     	for (int N = 10; N <= 70; N += 10) {
 //    		for (int repetition = 0; repetition < 10; repetition += 1) {
         		int T = N / 10;
@@ -58,7 +58,7 @@ public class FourPeaksTest {
 		        ProbabilisticOptimizationProblem pop = new GenericProbabilisticOptimizationProblem(ef, odd, df);
 		        
 		        RandomizedHillClimbing rhc = new RandomizedHillClimbing(hcp);      
-		      FixedIterationTrainer fit = new FixedIterationTrainer(rhc, iter, N); // 200000
+		      FixedIterationTrainerFourPeaks fit = new FixedIterationTrainerFourPeaks(rhc, iter, N); // 200000
 		      fit.train();
 //		        ThresholdTrainer tt = new ThresholdTrainer(rhc);
 //		        ConvergenceTrainer tt = new ConvergenceTrainer(rhc);
@@ -69,7 +69,7 @@ public class FourPeaksTest {
 //		        int RHCiter = tt.getIterations();
 		
 		        SimulatedAnnealing sa = new SimulatedAnnealing(1E11, .95, hcp);
-		        fit = new FixedIterationTrainer(sa, iter, N); // 200000
+		        fit = new FixedIterationTrainerFourPeaks(sa, iter, N); // 200000
 		        fit.train();
 //		        tt = new ThresholdTrainer(sa);
 //		        tt = new ConvergenceTrainer(sa);
@@ -81,7 +81,7 @@ public class FourPeaksTest {
 //		        int SAiter = tt.getIterations();
 		        
 		        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 100, 10, gap);
-		        fit = new FixedIterationTrainer(ga, 10000, N); // 1000
+		        fit = new FixedIterationTrainerFourPeaks(ga, 10000, N); // 1000
 		        fit.train();
 //		        tt = new ThresholdTrainer(ga);
 //		        tt = new ConvergenceTrainer(ga);
@@ -93,7 +93,7 @@ public class FourPeaksTest {
 //		        int GAiter = tt.getIterations();
 		        
 		        MIMIC mimic = new MIMIC(200, 20, pop);
-		        fit = new FixedIterationTrainer(mimic, 5000, N); // 1000
+		        fit = new FixedIterationTrainerFourPeaks(mimic, 5000, N); // 1000
 		        fit.train();
 //		        tt = new ThresholdTrainer(mimic);
 //		        tt = new ConvergenceTrainer(mimic);
